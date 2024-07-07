@@ -3,11 +3,13 @@ class Process{
   int? intime;
   //残り時間
   int? rem;
-  Process(this.intime,this.rem);
+  //プロセスid
+  int? pid;
+  Process(this.intime,this.rem,this.pid);
   //プロセスの残り時間をnumだけ消費する
-  void consum(int? num){
-    if(num != null && rem != null){
-      rem = rem!- num;
+  void consum(){
+    if(rem != null){
+      rem = rem!- 1;
       rem = rem! <0 ? 0 : rem;
     }
   }
@@ -20,5 +22,8 @@ class Process{
   }
   int get_rem(){
     return rem!;
+  }
+  int get_pid(){
+    return pid!;
   }
 }
