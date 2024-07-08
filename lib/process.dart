@@ -1,29 +1,29 @@
 class Process{
   //投入時間
-  int? intime;
+  int? _intime;
   //残り時間
-  int? rem;
+  int? _rem;
   //プロセスid
-  int? pid;
-  Process(this.intime,this.rem,this.pid);
+  int? _pid;
+  Process(this._intime,this._rem,this._pid);
   //プロセスの残り時間をnumだけ消費する
   void consum(){
-    if(rem != null){
-      rem = rem!- 1;
-      rem = rem! <0 ? 0 : rem;
+    if(_rem != null){
+      _rem = _rem! - 1;
+      _rem = _rem! <0 ? 0 : _rem;
     }
   }
   //プロセスの処理が終了したかを判定する関数
   bool is_end(){
-    return rem == 0;
+    return _rem == 0;
   }
   int get_intime(){
-    return intime!;
+    return _intime!;
   }
   int get_rem(){
-    return rem!;
+    return _rem!;
   }
   int get_pid(){
-    return pid!;
+    return _pid!;
   }
 }
