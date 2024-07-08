@@ -33,6 +33,27 @@ class Scheduler<QueueType extends ProcessQueue> {
   void next_time() {
     // queにrem_processを追加する
     print(time+1);
+    if(!que.is_empty()) {
+      if (cpu!.is_empty()) {
+        // queの先頭を加える
+        cpu!.swap_process(que.pop());
+      }
+    }
+    if(!cpu!.is_empty()){
+      if (!cpu!.next_time()) {
+        //プロセスの処理自体が終了した場合
+        print("TIME is");
+        sum_time+=time-Starttime[ cpu?.get_process_pid()]!+1;
+        print((time-Starttime[ cpu?.get_process_pid()]!+1));
+        if(!cpu!.is_empty()){
+          if(que.is_empty()){
+            que.push(cpu!.swap_process(null));
+          }else{
+            que.push(cpu!.swap_process(que.pop()));
+          }
+        }
+      }
+    }
     if (rem_process.isNotEmpty) {
       // 現在の時刻と同じものを追加できるだけ追加する.
       while(rem_process.isNotEmpty){
@@ -42,29 +63,6 @@ class Scheduler<QueueType extends ProcessQueue> {
           rem_process.removeAt(0);
         }else{
           break;
-        }
-      }
-    }
-    if(!que.is_empty()) {
-      if (cpu!.is_empty()) {
-        // queの先頭を加える
-        cpu!.swap_process(que.pop());
-      }
-    }
-    if(cpu!.is_empty()){
-      time++;
-      return;
-    }
-    if (!cpu!.next_time()) {
-      //プロセスの処理自体が終了した場合
-      print("TIME is");
-      sum_time+=time-Starttime[ cpu?.get_process_pid()]!+1;
-      print((time-Starttime[ cpu?.get_process_pid()]!+1));
-      if(!cpu!.is_empty()){
-        if(que.is_empty()){
-          que.push(cpu!.swap_process(null));
-        }else{
-          que.push(cpu!.swap_process(que.pop()));
         }
       }
     }
