@@ -5,6 +5,7 @@ import "process.dart";
 class Scheduler<QueueType extends ProcessQueue> {
   int? preemption;
   List<Process> rem_process;
+  List<int> timestamp =[];
   QueueType que;
   CPU? cpu = null;
   int time = 0;
@@ -16,6 +17,7 @@ class Scheduler<QueueType extends ProcessQueue> {
   Scheduler(this.preemption, this.rem_process, this.que) {
     time = 0;
     sum_time = 0;
+    timestamp.clear();
     cpu = CPU(this.preemption);
     this.rem_process.sort((a, b) {
       if (a.get_intime() == b.get_intime()) {
@@ -40,6 +42,7 @@ class Scheduler<QueueType extends ProcessQueue> {
     }
     //現在のCPUの処理を終えた時
     if(!cpu!.is_empty()){
+      timestamp.add(cpu!.get_process_pid());
       if (!cpu!.next_time()) {
         print("TIME is ${time}");
         //(time-Starttime[cpu?.get_process_pid()]!)
@@ -76,10 +79,14 @@ class Scheduler<QueueType extends ProcessQueue> {
   double get_average_time(){
     return sum_time / (process_num);
   }
+  List<int> get_timestamp(){
+    return timestamp;
+  }
 }
 
 void main() {
   var rem_process = [Process(0, 15, 0), Process(5, 10, 1), Process(8, 5, 2)];
+//  var rem_process = [Process(0, 1, 1), Process(0, 1, 2), Process(0, 1, 3),Process(0, 100, 10)];
   var que = ProcessQueue(); // ここで ProcessQueue のインスタンスを作成
   var S = Scheduler<ProcessQueue>(1, rem_process, que);
   while(true){
@@ -87,4 +94,5 @@ void main() {
     if(S.is_end())break;
   }
   print(S.get_average_time());
+  print(S.get_timestamp());
 }
