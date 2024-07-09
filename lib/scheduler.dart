@@ -32,25 +32,27 @@ class Scheduler<QueueType extends ProcessQueue> {
 
   void next_time() {
     // queにrem_processを追加する
-    print(time+1);
     if(!que.is_empty()) {
       if (cpu!.is_empty()) {
         // queの先頭を加える
         cpu!.swap_process(que.pop());
       }
     }
+    //現在のCPUの処理を終えた時
     if(!cpu!.is_empty()){
       if (!cpu!.next_time()) {
+        print("TIME is ${time}");
+        //(time-Starttime[cpu?.get_process_pid()]!)
+        print("process_id is ${cpu?.get_process_pid()}");
         //プロセスの処理自体が終了した場合
-        print("TIME is");
-        sum_time+=time-Starttime[ cpu?.get_process_pid()]!+1;
-        print((time-Starttime[ cpu?.get_process_pid()]!+1));
         if(!cpu!.is_empty()){
           if(que.is_empty()){
             que.push(cpu!.swap_process(null));
           }else{
             que.push(cpu!.swap_process(que.pop()));
           }
+        }else{
+          sum_time+=time-Starttime[ cpu?.get_process_pid()]!;
         }
       }
     }
@@ -77,13 +79,12 @@ class Scheduler<QueueType extends ProcessQueue> {
 }
 
 void main() {
-  var rem_process = [Process(0, 10, 0), Process(2, 20, 1), Process(6, 5, 2)];
+  var rem_process = [Process(0, 15, 0), Process(5, 10, 1), Process(8, 5, 2)];
   var que = ProcessQueue(); // ここで ProcessQueue のインスタンスを作成
-  var S = Scheduler<ProcessQueue>(1000, rem_process, que);
+  var S = Scheduler<ProcessQueue>(1, rem_process, que);
   while(true){
     S.next_time();
     if(S.is_end())break;
   }
   print(S.get_average_time());
 }
-
