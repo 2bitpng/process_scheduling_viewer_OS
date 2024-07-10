@@ -84,15 +84,15 @@ class Scheduler<QueueType extends ProcessQueue> {
   }
 }
 
-void main() {
-  var rem_process = [Process(0, 15, 0), Process(5, 10, 1), Process(8, 5, 2)];
-//  var rem_process = [Process(0, 1, 1), Process(0, 1, 2), Process(0, 1, 3),Process(0, 100, 10)];
-  var que = ProcessQueue(); // ここで ProcessQueue のインスタンスを作成
-  var S = Scheduler<ProcessQueue>(1, rem_process, que);
-  while(true){
-    S.next_time();
-    if(S.is_end())break;
-  }
-  print(S.get_average_time());
-  print(S.get_timestamp());
-}
+//void main() {
+//  var rem_process = [Process(0, 15, 0), Process(5, 10, 1), Process(8, 5, 2)];
+////  var rem_process = [Process(0, 1, 1), Process(0, 1, 2), Process(0, 1, 3),Process(0, 100, 10)];
+//  var que = ProcessQueue(); // ここで ProcessQueue のインスタンスを作成
+//  var S = Scheduler<ProcessQueue>(1, rem_process, que);
+//  while(true){
+//    S.next_time();
+//    if(S.is_end())break;
+//  }
+//  print(S.get_average_time());
+//  print(S.get_timestamp());
+//}
